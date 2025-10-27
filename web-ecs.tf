@@ -39,7 +39,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition_web" {
       ]
 
       healthCheck = {
-        command     = ["CMD", "wget -q --spider http://localhost:8080/config.json"]
+        command     = ["CMD-SHELL", "wget -q --spider http://localhost:8080/config.json"]
         interval    = 15 # seconds
         timeout     = 6  # seconds
         retries     = 3
