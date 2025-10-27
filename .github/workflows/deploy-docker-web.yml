@@ -26,6 +26,6 @@ jobs:
 
       - name: 'Build Inventory Image'
         run: |
-          cd docker
+          cd docker-web
           docker build . --no-cache --tag ghcr.io/govuk-digital-backbone/element-web:latest
           docker push ghcr.io/govuk-digital-backbone/element-web:latest
