@@ -1,3 +1,6 @@
 #!/bin/sh
 
-cp -f /custom-config/*.json /app || exit 0
+ls -lah /custom-config/
+ls -lah /app/
+
+cp -f /custom-config/config.json /app/config.json || exit 0
