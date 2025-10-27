@@ -28,11 +28,11 @@ locals {
   )
 
   web_container_name = "${local.task_name}-web"
-  web_variables      = merge(
+  web_variables = merge(
     var.web_variables,
     {
       ELEMENT_WEB_PORT = "8080"
-      BUMP = "1"
+      BUMP             = "2"
     }
   )
 }

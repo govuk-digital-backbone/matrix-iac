@@ -39,11 +39,11 @@ resource "aws_ecs_task_definition" "ecs_task_definition_web" {
       ]
 
       healthCheck = {
-        command     = ["CMD-SHELL", "curl -fsS http://localhost:8080/config.json || exit 1"]
-        interval    = 15     # seconds
-        timeout     = 6      # seconds
+        command     = ["CMD", "wget -q --spider http://localhost:8080/config.json"]
+        interval    = 15 # seconds
+        timeout     = 6  # seconds
         retries     = 3
-        startPeriod = 10     # warm-up before first check
+        startPeriod = 10 # warm-up before first check
       }
 
       #linuxParameters = {

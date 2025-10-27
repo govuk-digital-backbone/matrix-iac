@@ -40,10 +40,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 
       healthCheck = {
         command     = ["CMD-SHELL", "curl -fsS http://localhost:8008/health || exit 1"]
-        interval    = 15     # seconds
-        timeout     = 6      # seconds
+        interval    = 15 # seconds
+        timeout     = 6  # seconds
         retries     = 3
-        startPeriod = 30     # warm-up before first check
+        startPeriod = 30 # warm-up before first check
       }
 
       #linuxParameters = {
