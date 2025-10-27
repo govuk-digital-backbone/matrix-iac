@@ -28,6 +28,6 @@ jobs:
       - name: 'Build Inventory Image'
         run: |
           cd docker-web
-          chmod +x 01-pre-run.sh
+          chmod +x *.sh
           docker build . --no-cache --tag ghcr.io/govuk-digital-backbone/element-web:latest
           docker push ghcr.io/govuk-digital-backbone/element-web:latest
