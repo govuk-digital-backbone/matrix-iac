@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cp /custom-config/*.json /app || exit 0
+cp -f /custom-config/*.json /app || exit 0
