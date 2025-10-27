@@ -1,3 +1,6 @@
+homeserver.yaml
+config.json
+
 # Local .terraform directories
 .terraform/
 
