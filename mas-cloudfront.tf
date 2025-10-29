@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "this" {
+resource "aws_cloudfront_distribution" "mas" {
   count = var.bootstrap_step >= 1 ? 1 : 0
 
   origin {
@@ -20,14 +20,12 @@ resource "aws_cloudfront_distribution" "this" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = var.matrix_domain
+  comment             = "account.${var.matrix_domain}"
   default_root_object = "index.html"
   http_version        = "http2and3"
 
   aliases = var.bootstrap_step >= 3 ? [
-    "synapse.${var.matrix_domain}",
-    "admin.${var.matrix_domain}",
-    "mrtc.${var.matrix_domain}"
+    "account.${var.matrix_domain}"
   ] : []
 
   default_cache_behavior {
@@ -57,6 +55,6 @@ resource "aws_cloudfront_distribution" "this" {
   }
 
   tags = {
-    Name = "${local.task_name}-synapse"
+    Name = "${local.task_name}-mas"
   }
 }

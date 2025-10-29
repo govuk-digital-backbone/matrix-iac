@@ -23,9 +23,9 @@ locals {
       name : "psycopg2"
       txn_limit : 0
       args : {
-        user : local.database_username
-        password : local.database_password
-        dbname : local.database_name
+        user : local.database_master_username     #local.synapse_db_username
+        password : local.database_master_password #local.synapse_db_password
+        dbname : local.synapse_database_name
         host : aws_rds_cluster.db.endpoint
         port : 5432
         cp_min : 1
@@ -33,16 +33,21 @@ locals {
       }
     }
     password_config : {
+      enabled : false
+      #pepper : random_password.synapse_password_pepper.result
+      #policy : {
+      #  enabled : true
+      #  minimum_length : 15
+      #  require_digit : true
+      #  require_symbol : true
+      #  require_lowercase : true
+      #  require_uppercase : true
+      #}
+    }
+    matrix_authentication_service : {
       enabled : true
-      pepper : random_password.synapse_password_pepper.result
-      policy : {
-        enabled : true
-        minimum_length : 15
-        require_digit : true
-        require_symbol : true
-        require_lowercase : true
-        require_uppercase : true
-      }
+      secret : random_password.mas_synapse_key.result
+      endpoint : "https://account.${var.matrix_domain}/"
     }
     media_store_path : "/data/media_store"
     signing_key_path : "/data/${var.server_name}.signing.key"

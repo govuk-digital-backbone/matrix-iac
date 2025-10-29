@@ -4,7 +4,9 @@ data "archive_file" "cfgmgr" {
   output_path = "cfgmgr-lambda.zip"
 
   depends_on = [
-    local_file.homeserver_yaml
+    local_file.homeserver_yaml,
+    local_file.mas_config,
+    local_file.elementweb_config
   ]
 }
 
@@ -18,8 +20,7 @@ resource "aws_lambda_function" "cfgmgr" {
 
   environment {
     variables = {
-      DO_HS  = "False"
-      DO_WEB = "True"
+      BUMP = "2"
     }
   }
 
@@ -33,9 +34,14 @@ resource "aws_lambda_function" "cfgmgr" {
   #  local_mount_path = "/mnt/data"
   #}
 
+  #file_system_config {
+  #  arn              = aws_efs_access_point.efs_ap_web.arn
+  #  local_mount_path = "/mnt/web"
+  #}
+
   file_system_config {
-    arn              = aws_efs_access_point.efs_ap_web.arn
-    local_mount_path = "/mnt/web"
+    arn              = aws_efs_access_point.efs_ap_mas.arn
+    local_mount_path = "/mnt/mas"
   }
 }
 
@@ -43,6 +49,7 @@ resource "aws_lambda_invocation" "cfgmgr" {
   function_name = aws_lambda_function.cfgmgr.function_name
   input = jsonencode({
     source_code_hash = data.archive_file.cfgmgr.output_base64sha256
+    action           = "mas" # empty | homeserver | web | mas
     print_efs_dir    = false
   })
   lifecycle_scope = "CRUD"

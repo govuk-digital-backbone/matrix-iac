@@ -6,11 +6,11 @@ locals {
         "base_url" : "https://synapse.matrix.${var.server_name}"
       }
     }
-    brand : "Internal Discuss"
+    brand : var.branded_name
   }
 }
 
 resource "local_file" "elementweb_config" {
   content  = jsonencode(local.elementweb_config)
-  filename = "${path.module}/config-manager/config.json"
+  filename = "${path.module}/config-manager/web-config.json"
 }

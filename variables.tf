@@ -4,6 +4,11 @@ variable "bootstrap_step" {
   default     = 1
 }
 
+variable "branded_name" {
+  description = "The branded name for the Matrix instance"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "The name of the ECS cluster"
   type        = string
@@ -61,6 +66,21 @@ variable "enable_execute_command" {
   default     = false
 }
 
+variable "auth_ulid" {
+  description = "The ULID for authentication"
+  type        = string
+}
+
+variable "auth_client_id" {
+  description = "The client ID for authentication"
+  type        = string
+}
+
+variable "auth_client_secret" {
+  description = "The client secret for authentication"
+  type        = string
+}
+
 # == Synapse container variables ==
 
 variable "synapse_container_image" {
@@ -97,7 +117,6 @@ variable "synapse_variables" {
   default     = {}
 }
 
-
 # == Element Web container variables ==
 
 variable "web_container_image" {
@@ -133,3 +152,40 @@ variable "web_variables" {
   type        = map(string)
   default     = {}
 }
+
+# == Element MAS container variables ==
+
+#variable "mas_container_image" {
+#  description = "The Docker image for the Element MAS container"
+#  type        = string
+#}
+
+#variable "mas_container_image_tag" {
+#  description = "The tag for the Docker image for the Element MAS container"
+#  type        = string
+#}
+
+variable "mas_desired_count" {
+  description = "The desired count for the Element MAS task"
+  type        = number
+  default     = 1
+}
+
+variable "mas_task_cpu" {
+  description = "The CPU units for the Element MAS task"
+  type        = number
+  default     = 512
+}
+
+variable "mas_task_memory" {
+  description = "The memory (in MiB) for the Element MAS task"
+  type        = number
+  default     = 1024
+}
+
+variable "mas_variables" {
+  description = "Additional environment variables for the Element MAS application"
+  type        = map(string)
+  default     = {}
+}
+

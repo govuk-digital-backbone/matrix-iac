@@ -1,23 +1,3 @@
-resource "random_password" "sql_database_name" {
-  length  = 12
-  special = false
-  upper   = false
-  numeric = false
-
-  keepers = {
-    "bump" = 1
-  }
-
-  lifecycle {
-    ignore_changes = [
-      length,
-      special,
-      upper,
-      numeric,
-    ]
-  }
-}
-
 resource "random_password" "sql_master_username" {
   length  = 8
   special = false
@@ -93,11 +73,11 @@ resource "aws_rds_cluster" "db" {
   cluster_identifier              = "${local.task_name}-cluster-${random_password.sql_database_name.result}"
   engine                          = "aurora-postgresql"
   engine_mode                     = "provisioned"
-  engine_version                  = "15.10"
+  engine_version                  = "15.12"
   backup_retention_period         = var.environment_name == "production" ? 14 : 2
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.db.name
-  master_username                 = local.database_username
-  master_password                 = local.database_password
+  master_username                 = local.database_master_username
+  master_password                 = local.database_master_password
   deletion_protection             = (var.environment_name == "production")
   skip_final_snapshot             = true
   kms_key_id                      = aws_kms_key.db_enc.arn

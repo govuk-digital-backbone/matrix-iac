@@ -18,9 +18,14 @@ resource "aws_lambda_function" "sqlmgr" {
   environment {
     variables = {
       DB_HOST       = aws_rds_cluster.db.endpoint
-      DB_ADMIN_USER = local.database_username
-      DB_ADMIN_PASS = local.database_password
-      SYNAPSE_DB    = local.database_name
+      DB_ADMIN_USER = local.database_master_username
+      DB_ADMIN_PASS = local.database_master_password
+      SYNAPSE_DB    = local.synapse_database_name
+      SYNAPSE_USER  = local.synapse_db_username
+      SYNAPSE_PASS  = local.synapse_db_password
+      MAS_DB        = local.mas_database_name
+      MAS_USER      = local.mas_database_username
+      MAS_PASS      = local.mas_database_password
     }
   }
 

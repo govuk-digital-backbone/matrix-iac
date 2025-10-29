@@ -77,3 +77,31 @@ resource "aws_route53_record" "matrix_web_aaaa" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "matrix_mas_a" {
+  count = var.bootstrap_step >= 3 ? 1 : 0
+
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "account.${var.matrix_domain}"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.mas[0].domain_name
+    zone_id                = aws_cloudfront_distribution.mas[0].hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "matrix_mas_aaaa" {
+  count = var.bootstrap_step >= 3 ? 1 : 0
+
+  zone_id = data.aws_route53_zone.zone.zone_id
+  name    = "account.${var.matrix_domain}"
+  type    = "AAAA"
+
+  alias {
+    name                   = aws_cloudfront_distribution.mas[0].domain_name
+    zone_id                = aws_cloudfront_distribution.mas[0].hosted_zone_id
+    evaluate_target_health = false
+  }
+}

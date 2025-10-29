@@ -5,13 +5,14 @@ locals {
 
   log_retention_days = var.environment_name == "production" ? 365 : 14
 
+  database_master_username = sensitive(random_password.sql_master_username.result)
+  database_master_password = sensitive(random_password.sql_master_password.result)
+
   synapse_container_name = "${local.task_name}-synapse"
 
-  database_username = sensitive(random_password.sql_master_username.result)
-  database_password = sensitive(random_password.sql_master_password.result)
-  database_name     = sensitive("db${random_password.sql_database_name.result}")
-  connection_string = sensitive("postgresql://${local.database_username}:${local.database_password}@${aws_rds_cluster.db.endpoint}/${local.database_name}")
-
+  synapse_database_name = sensitive("db${random_password.sql_database_name.result}")
+  synapse_db_username   = sensitive(random_password.synapse_db_username.result)
+  synapse_db_password   = sensitive(random_password.synapse_db_password.result)
   synapse_variables = merge(
     var.synapse_variables,
     {
@@ -24,6 +25,7 @@ locals {
       UID                  = "991"
       GID                  = "991"
       SYNAPSE_WORKER       = "synapse.app.homeserver"
+      BUMP                 = "4"
     }
   )
 
@@ -32,7 +34,21 @@ locals {
     var.web_variables,
     {
       ELEMENT_WEB_PORT = "8080"
-      BUMP             = "2"
+      BUMP             = "4"
+    }
+  )
+
+  mas_container_name    = "${local.task_name}-mas"
+  mas_database_name     = sensitive("db${random_password.mas_database_name.result}")
+  mas_database_username = sensitive(random_password.mas_db_username.result)
+  mas_database_password = sensitive(random_password.mas_db_password.result)
+  # mas_database_uri      = "postgresql://${local.mas_database_username}:${local.mas_database_password}@${aws_rds_cluster.db.endpoint}:5432/${local.mas_database_name}"
+  mas_database_uri = "postgresql://${local.database_master_username}:${local.database_master_password}@${aws_rds_cluster.db.endpoint}:5432/${local.mas_database_name}"
+  mas_variables = merge(
+    var.mas_variables,
+    {
+      MAS_CONFIG = "/app/config/config.yaml"
+      BUMP       = "8"
     }
   )
 }

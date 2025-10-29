@@ -1,5 +1,5 @@
-homeserver.yaml
-config.json
+config-manager/*.json
+config-manager/*.yaml
 
 # Local .terraform directories
 .terraform/

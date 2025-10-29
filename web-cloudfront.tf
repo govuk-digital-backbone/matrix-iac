@@ -20,7 +20,7 @@ resource "aws_cloudfront_distribution" "web" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = var.matrix_domain
+  comment             = "chat.${var.matrix_domain}"
   default_root_object = "index.html"
   http_version        = "http2and3"
 

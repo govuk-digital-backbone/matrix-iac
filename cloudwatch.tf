@@ -13,3 +13,11 @@ resource "aws_cloudwatch_log_group" "web" {
     Name = "${local.task_name}-web"
   }
 }
+
+resource "aws_cloudwatch_log_group" "mas" {
+  name              = "/ecs/${local.task_name}/mas"
+  retention_in_days = local.log_retention_days
+  tags = {
+    Name = "${local.task_name}-mas"
+  }
+}
